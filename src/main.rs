@@ -6,7 +6,7 @@ const NACOS_PORT: &str = "8848";
 const SERVER_NAME: &str = "nacos-test-service";
 
 const SERVER_ADDR: &str = "127.0.0.1";
-const SERVER_PORT: i32 = 5800;
+const SERVER_PORT: &str = "5800";
 
 #[tokio::main]
 async fn main() {
@@ -36,7 +36,7 @@ async fn service_register() {
                 + "&ip="
                 + SERVER_ADDR
                 + "&port="
-                + &SERVER_PORT.to_string(),
+                + SERVER_PORT,
         )
         .send()
         .await;
@@ -56,7 +56,7 @@ async fn service_beat() {
                     + "&ip="
                     + SERVER_ADDR
                     + "&port="
-                    + &SERVER_PORT.to_string(),
+                    + SERVER_PORT,
             )
             .send()
             .await;
