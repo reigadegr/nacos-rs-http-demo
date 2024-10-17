@@ -1,13 +1,12 @@
 use reqwest::Client;
 use tokio::time::{sleep, Duration};
+const NACOS_ADDR: &str = "127.0.0.1";
+const NACOS_PORT: &str = "8848";
 
-const SERVER_NAME: &str = "users-service";
-const USERNAME: &str = "admin";
-const PASSWORD: &str = "admin";
+const SERVER_NAME: &str = "nacos-test-service";
 
 const SERVER_ADDR: &str = "127.0.0.1";
-const IP_ADDR: &str = "127.0.0.1";
-const PORT: i32 = 5800;
+const SERVER_PORT: i32 = 5800;
 
 #[tokio::main]
 async fn main() {
@@ -28,12 +27,16 @@ async fn service_register() {
     let client = reqwest::Client::new();
     let _ = client
         .post(
-            "http://127.0.0.1:8848/nacos/v1/ns/instance?serviceName=".to_owned()
+            "http://".to_owned()
+                + NACOS_ADDR
+                + ":"
+                + NACOS_PORT
+                + "/nacos/v1/ns/instance?serviceName="
                 + SERVER_NAME
                 + "&ip="
-                + IP_ADDR
+                + SERVER_ADDR
                 + "&port="
-                + &PORT.to_string(),
+                + &SERVER_PORT.to_string(),
         )
         .send()
         .await;
@@ -42,7 +45,21 @@ async fn service_register() {
 async fn service_beat() {
     loop {
         let client = Client::new();
-        let _ = client.put("http://127.0.0.1:8848/nacos/v1/ns/instance/beat?serviceName=users-service&ip=127.0.0.1&port=8091").send().await;
+        let _ = client
+            .put(
+                "http://".to_owned()
+                    + NACOS_ADDR
+                    + ":"
+                    + NACOS_PORT
+                    + "/nacos/v1/ns/instance/beat?serviceName="
+                    + SERVER_NAME
+                    + "&ip="
+                    + SERVER_ADDR
+                    + "&port="
+                    + &SERVER_PORT.to_string(),
+            )
+            .send()
+            .await;
         sleep(Duration::from_secs(5)).await;
     }
 }
