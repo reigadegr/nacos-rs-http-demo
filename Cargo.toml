@@ -4,5 +4,5 @@ name = "nacos-rs-http-demo"
 version = "0.1.0"
 
 [dependencies]
-reqwest = {version = "0.12.8", features = ["json", "multipart"]}
-tokio = {version = "1.0.0", features = ["full"]}
+reqwest = {version = "0.12.8", features = []}
+tokio = {version = "1.40.0", features = ["full"]}
